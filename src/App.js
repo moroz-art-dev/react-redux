@@ -2,32 +2,39 @@ import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import './App.scss'
 import Counter from './Counter'
-import {add, addNumber, sub} from "./redux/actions/actions";
+import {add, addNumber, sub, asyncAdd} from "./redux/actions/actions";
+import {number} from "prop-types";
 
 class App extends Component {
 
 
-  render() {
-      console.log(this.props)
-    return (
-      <div className={'App'}>
-        <h1>Счетчик <strong>{this.props.counter}</strong></h1>
+    render() {
+        console.log(this.props)
+        return (
+            <div className={'App'}>
+                <h1>Счетчик <strong>{this.props.counter}</strong></h1>
 
-        <hr/>
+                <hr/>
 
-        <div className="Actions">
-          <button onClick={this.props.onAdd}>Добавить 1</button>
-          <button onClick={this.props.onSub}>Вычесть 1</button>
-        </div>
-          <div className="Actions">
-              <button onClick={() => this.props.onAddNumber(15)}>Добавить 15</button>
-              <button onClick={() => this.props.onAddNumber(-17)}>Вычесть 17</button>
-          </div>
-        <Counter />
-      </div>
-    )
-  }
+                <div className="Actions">
+                    <button onClick={this.props.onAdd}>Добавить 1</button>
+                    <button onClick={this.props.onSub}>Вычесть 1</button>
+                </div>
+                <div className="Actions">
+                    <button onClick={() => this.props.onAddNumber(15)}>Добавить 15</button>
+                    <button onClick={() => this.props.onAddNumber(-17)}>Вычесть 17</button>
+                </div>
+                <div className="Actions">
+                    <button onClick={() => this.props.onAddNumber(100)}>
+                        Асинхронно добавить 100
+                    </button>
+                </div>
+                <Counter/>
+            </div>
+        )
+    }
 }
+
 function mapStateToProps(state) {
     return {
         counter: state.counter1.counter
@@ -39,6 +46,7 @@ function mapDispatchToProps(dispatch) {
         onAdd: () => dispatch(add()),
         onSub: () => dispatch(sub()),
         onAddNumber: number => dispatch(addNumber(number)),
+        onAsyncAdd: number => dispatch(asyncAdd(number))
     }
 }
 
